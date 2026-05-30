@@ -2,9 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
+//Enemy AI Script
 public class EnemyAI : MonoBehaviour
 {
-    private Transform player;
+    private Transform player; // Used for navigating towards the player
 
     [Header("Movement")]
     public float chaseRange = 20f;
@@ -13,6 +14,7 @@ public class EnemyAI : MonoBehaviour
     public float attackRange = 2f;
     public float attackDamage = 10f;
     public float attackCooldown = 1f;
+    public float attackAnimLength = 0.4f;
 
     [Header("Attack Hitbox")]
     [SerializeField]
@@ -26,6 +28,7 @@ public class EnemyAI : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
+        //Get's the player's location
         GameObject playerObject =
             GameObject.FindGameObjectWithTag("Player");
 
@@ -40,11 +43,13 @@ public class EnemyAI : MonoBehaviour
         if (player == null)
             return;
 
+        // Moving Enemy to player
         float distance = Vector3.Distance(
             transform.position,
             player.position
         );
 
+        // tick down attack timer
         attackTimer -= Time.deltaTime;
 
         if (distance > attackRange)
@@ -53,8 +58,8 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            Debug.Log("In range to attack");
-            //agent.ResetPath();
+            //Debug.Log("In range to attack");
+            agent.ResetPath();
 
             TryAttack();
         }
@@ -69,15 +74,17 @@ public class EnemyAI : MonoBehaviour
 
         attackTimer = attackCooldown;
 
-
+        // Attack player with hitbox
         StartCoroutine(AttackRoutine());
     }
 
+    // Attack function
     private IEnumerator AttackRoutine()
     {
+        // turn hit box on then off when attacking
         attackHitbox.SetActive(true);
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(attackAnimLength);
 
         attackHitbox.SetActive(false);
     }

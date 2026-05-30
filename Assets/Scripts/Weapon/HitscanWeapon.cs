@@ -4,6 +4,8 @@ using UnityEngine;
 public class HitscanWeapon : Weapon
 {
     public LayerMask hitMask;
+    [SerializeField]
+    private Tracer tracerPrefab;
 
     public override void Fire()
     {
@@ -13,6 +15,7 @@ public class HitscanWeapon : Weapon
         UpdateFireTime();
 
         Vector3 direction = (AimPoint - shootOrigin.position).normalized;
+        Vector3 tracerEndPoint;
 
         if (Physics.Raycast(
             shootOrigin.position,
@@ -21,6 +24,7 @@ public class HitscanWeapon : Weapon
             weaponData.range,
             hitMask))
         {
+            tracerEndPoint = hit.point;
             Debug.Log("Hit: " + hit.collider.name);
 
             Health health =
@@ -31,6 +35,21 @@ public class HitscanWeapon : Weapon
                 health.TakeDamage(weaponData.damage);
             }
         }
+        else
+        {
+            tracerEndPoint =
+                shootOrigin.position +
+                direction * weaponData.range;
+        }
+
+        Tracer tracer = Instantiate(
+            tracerPrefab
+        );
+
+        tracer.Initialize(
+            shootOrigin.position,
+            tracerEndPoint
+        );
 
         Debug.DrawRay(
             shootOrigin.position,
