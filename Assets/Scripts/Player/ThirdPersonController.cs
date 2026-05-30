@@ -126,6 +126,9 @@ public class ThirdPersonController : MonoBehaviour
         playerStats.Died += OnPlayerDied;
     }
 
+
+    //TODO: This can't be the right place to handle player death here, can it?
+    //Handle Player Death
     private void OnPlayerDied()
     {
         Debug.Log("Game Over");
@@ -163,6 +166,7 @@ public class ThirdPersonController : MonoBehaviour
         forward.Normalize();
         right.Normalize();
 
+        // Move player in inputted direction
         Vector3 moveDirection =
             forward * inputHandler.MoveInput.y +
             right * inputHandler.MoveInput.x;
@@ -210,11 +214,15 @@ public class ThirdPersonController : MonoBehaviour
         if (!inputHandler.IsJumpHeld)
             return;
 
+        // Continuously drain player health
         if (!playerStats.ConsumeEnergy(
             flightEnergyCostPerSecond * Time.deltaTime))
             return;
 
         //Debug.Log("Am Flying");
+
+        // TODO: Right now flight kinda messed up
+        // Supposed to have some momentum/acceleration
 
         //velocity.y += flightForce * Time.deltaTime;
         velocity.y = flightForce;

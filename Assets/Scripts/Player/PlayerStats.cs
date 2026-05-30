@@ -46,6 +46,10 @@ public class PlayerStats : MonoBehaviour
 
         HealthChanged?.Invoke(CurrentHealth, maxHealth);
 
+        Debug.Log(
+            $"Player Health: {CurrentHealth}"
+        );
+
         if (CurrentHealth <= 0)
         {
             Died?.Invoke();
