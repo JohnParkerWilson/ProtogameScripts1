@@ -1,0 +1,42 @@
+using UnityEngine;
+
+// Hitscan Weapon is of the Weapon Class
+public class HitscanWeapon : Weapon
+{
+    public LayerMask hitMask;
+
+    public override void Fire()
+    {
+        if (!CanFire())
+            return;
+
+        UpdateFireTime();
+
+        Vector3 direction = (AimPoint - shootOrigin.position).normalized;
+
+        if (Physics.Raycast(
+            shootOrigin.position,
+            direction,
+            out RaycastHit hit,
+            weaponData.range,
+            hitMask))
+        {
+            Debug.Log("Hit: " + hit.collider.name);
+
+            Health health =
+                hit.collider.GetComponent<Health>();
+
+            if (health != null)
+            {
+                health.TakeDamage(weaponData.damage);
+            }
+        }
+
+        Debug.DrawRay(
+            shootOrigin.position,
+            direction * weaponData.range,
+            Color.red,
+            1f
+        );
+    }
+}
