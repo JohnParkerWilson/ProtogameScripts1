@@ -21,6 +21,8 @@ public class MissileWeapon : Weapon
                 shootOrigin.rotation
             );
 
+        missile.AOE = weaponData.radius;
+
         missile.Initialize(
             target,
             weaponData.damage

@@ -27,7 +27,7 @@ public class ProjectileWeapon : Weapon
             (AimPoint - shootOrigin.position).normalized;
 
 
-
+        // Shoots a projectile 
         GameObject projectileObject = Instantiate(
             weaponData.projectilePrefab,
             shootOrigin.position,
@@ -38,6 +38,7 @@ public class ProjectileWeapon : Weapon
             projectileObject.GetComponent<Projectile>();
 
         projectile.speed = weaponData.projectileSpeed;
+        projectile.AOE = weaponData.radius;
 
         projectile.Initialize(
             direction,

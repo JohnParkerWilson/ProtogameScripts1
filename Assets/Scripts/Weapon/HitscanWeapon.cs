@@ -28,7 +28,7 @@ public class HitscanWeapon : Weapon
             Debug.Log("Hit: " + hit.collider.name);
 
             Health health =
-                hit.collider.GetComponent<Health>();
+                hit.collider.GetComponentInParent<Health>();
 
             if (health != null)
             {

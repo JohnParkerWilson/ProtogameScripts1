@@ -8,6 +8,12 @@ public class HomingMissile : MonoBehaviour
     // So that the projectile doesn't collide with the player or whatever
     public LayerMask damageLayers;
 
+    [Header("Explosion")]
+    // Add to make projectile explosive
+    public Explosion explosionPrefab;
+    public float AOE = 1f;
+
+    // Whatever the player locked on to
     private Transform target;
 
     public void Initialize(
@@ -31,7 +37,7 @@ public class HomingMissile : MonoBehaviour
             return;
         }
 
-        // Handle rotate missile towards target
+        // Handle rotation and movement of missile towards target
         Vector3 direction =
             (target.position - transform.position)
             .normalized;
@@ -60,15 +66,36 @@ public class HomingMissile : MonoBehaviour
             return;
         }
 
-        // Deal Damage
-        Health health =
-            other.GetComponent<Health>();
-
-        Debug.Log($"Missile collided with {other.name}");
-
-        if (health != null)
+        // TODO: Add explosive functionality
+        // If the projectile is explosive
+        if (explosionPrefab != null)
         {
-            health.TakeDamage(damage);
+            //Create explosive
+            Explosion explosion =
+                Instantiate(
+                    explosionPrefab,
+                    transform.position,
+                    Quaternion.identity
+                );
+
+
+            explosion.damage = damage;
+            explosion.radius = AOE;
+
+            explosion.Explode();
+        }
+        else
+        {
+            // Deal Damage
+            Health health =
+                other.GetComponentInParent<Health>();
+
+            Debug.Log($"Missile collided with {other.name}");
+
+            if (health != null)
+            {
+                health.TakeDamage(damage);
+            }
         }
 
         Destroy(gameObject);
