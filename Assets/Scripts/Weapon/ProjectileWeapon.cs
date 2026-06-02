@@ -2,6 +2,20 @@ using UnityEngine;
 
 public class ProjectileWeapon : Weapon
 {
+    private void Update()
+    {
+        Debug.DrawLine(
+            shootOrigin.position,
+            AimPoint,
+            Color.green
+        );
+
+        Debug.DrawLine(
+            Camera.main.transform.position,
+            AimPoint,
+            Color.red
+        );
+    }
     public override void Fire()
     {
         if (!CanFire())
@@ -11,6 +25,8 @@ public class ProjectileWeapon : Weapon
 
         Vector3 direction =
             (AimPoint - shootOrigin.position).normalized;
+
+
 
         GameObject projectileObject = Instantiate(
             weaponData.projectilePrefab,

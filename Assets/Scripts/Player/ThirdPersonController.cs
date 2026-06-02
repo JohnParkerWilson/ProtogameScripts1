@@ -303,6 +303,7 @@ public class ThirdPersonController : MonoBehaviour
             currentAimPoint =
                 ray.origin + ray.direction * 1000f;
         }
+
     }
     private void RotateTowardsAim()
     {
