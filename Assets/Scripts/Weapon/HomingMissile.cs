@@ -90,7 +90,7 @@ public class HomingMissile : MonoBehaviour
             Health health =
                 other.GetComponentInParent<Health>();
 
-            Debug.Log($"Missile collided with {other.name}");
+            //Debug.Log($"Missile collided with {other.name}");
 
             if (health != null)
             {

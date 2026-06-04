@@ -11,6 +11,7 @@ public abstract class Weapon : MonoBehaviour
     public Vector3 AimPoint { get; set; }
 
     protected float nextFireTime;
+    public bool IsFireHeld { get; set; }
 
     public virtual bool CanFire()
     {
@@ -21,6 +22,12 @@ public abstract class Weapon : MonoBehaviour
     {
         nextFireTime = Time.time + weaponData.fireRate;
     }
+
+    //public virtual void StartCharging() { }
+
+    public virtual void Charging() { }
+
+    public virtual void ReleaseCharge() { }
 
     public abstract void Fire();
 }

@@ -66,7 +66,7 @@ public class Projectile : MonoBehaviour
             Health health =
                 other.GetComponentInParent<Health>();
 
-            Debug.Log($"Projectile collided with {other.name}");
+            //Debug.Log($"Projectile collided with {other.name}");
 
             if (health != null)
             {
